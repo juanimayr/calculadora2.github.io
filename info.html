@@ -1,0 +1,104 @@
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calculadora de Logaritmos</title>
+</head>
+
+<body>
+    <canvas id="c" class="matrix"></canvas>
+    <div class="external-container">
+        <div class="container">
+            <h1>¿Qué es un Logaritmo?</h1>
+            <div class="inner-container">
+                
+                <div class="calculo2">
+                    <div class="texto">
+                        <p>Un logaritmo es una operación matemática que responde a la pregunta: "¿A qué número debo elevar una base para obtener un cierto resultado?". En otras palabras, el logaritmo de un número es el exponente al cual se debe elevar la base para llegar a dicho número. Por ejemplo, en el logaritmo de 100 en base 10, estamos buscando ecuantas veces se tiene que multiplicar al 10 por si mismo para que de como resultado 100. Esto se expresa como:
+                        </p>
+                        <h3>
+                            log10 (100) = 2
+                        </h3>
+                        <p>
+                            Esto significa que:
+                        </p>
+                        <h3>
+                            10^2 = 100
+                        </h3>
+                        <p>
+                            La notación general para un logaritmo es:
+                        </p>
+                        <h3>
+                            log𝑏 (𝑥) = 𝑦
+                        </h3>
+                    </div>
+            </div>
+                <div class="info">
+                    <a href="index.html"><img src="volver.png"></a>
+                    <p>Regresar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // geting canvas by Boujjou Achraf
+        var c = document.getElementById("c");
+        var ctx = c.getContext("2d");
+
+        //making the canvas full screen
+        c.height = window.innerHeight;
+        c.width = window.innerWidth;
+
+        //chinese characters - taken from the unicode charset
+        var matrix = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        //converting the string into an array of single characters
+        matrix = matrix.split("");
+
+        var font_size = 10;
+        var columns = c.width/font_size; //number of columns for the rain
+        //an array of drops - one per column
+        var drops = [];
+        //x below is the x coordinate
+        //1 = y co-ordinate of the drop(same for every drop initially)
+        for(var x = 0; x < columns; x++)
+            drops[x] = 1; 
+
+        //drawing the characters
+        function draw()
+        {
+            //Black BG for the canvas
+            //translucent BG to show trail
+            ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
+            ctx.fillRect(0, 0, c.width, c.height);
+
+            ctx.fillStyle = "#f4427d";//green text
+            ctx.font = font_size + "px arial";
+            //looping over drops
+            for(var i = 0; i < drops.length; i++)
+            {
+                //a random chinese character to print
+                var text = matrix[Math.floor(Math.random()*matrix.length)];
+                //x = i*font_size, y = value of drops[i]*font_size
+                ctx.fillText(text, i*font_size, drops[i]*font_size);
+
+                //sending the drop back to the top randomly after it has crossed the screen
+                //adding a randomness to the reset to make the drops scattered on the Y axis
+                if(drops[i]*font_size > c.height && Math.random() > 0.975)
+                    drops[i] = 0;
+
+                //incrementing Y coordinate
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 35);
+
+    </script>
+</body>
+
+</html>
